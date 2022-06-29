@@ -62,8 +62,8 @@ HOST=ubuntu
 # Create User
 useradd -G sudo -m -s /bin/bash ubuntu
 passwd ubuntu <<IEOF
-ubuntu
-ubuntu
+password
+password
 IEOF
 gpasswd -a ubuntu video
 gpasswd -a ubuntu audio
@@ -116,14 +116,15 @@ sed -i -e '
 %sudo	ALL=(ALL) NOPASSWD: ALL
 ' /etc/sudoers
 
+apt-get clean
+rm -rf /var/lib/apt/lists/*
+
 sync
 
 EOF
 
 ./ch-mount.sh -u $TARGET_ROOTFS_DIR
 
-sudo tar zcvf ubuntu-$RELEASE-base-$ARCH.tar.gz $TARGET_ROOTFS_DIR
-
-sudo rm $TARGET_ROOTFS_DIR -r
+sudo tar zcf ubuntu-base-console-$ARCH.tar.gz $TARGET_ROOTFS_DIR
 
 echo -e "normal exit"
